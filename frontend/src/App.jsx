@@ -9,7 +9,7 @@ import Cart from "./pages/Cart"
 import Login from "./pages/Login"
 import PlaceOrder from "./pages/PlaceOrder"
 import Orders from "./pages/Orders"
-
+import ShopContextProvider from "./context/shopContext"
 
 function App() {
 
@@ -61,7 +61,9 @@ function App() {
 
   return (
     <>
-    <RouterProvider router={router}/>
+    <ShopContextProvider>
+      <RouterProvider router={router}/>
+    </ShopContextProvider>
     </>
   )
 }
