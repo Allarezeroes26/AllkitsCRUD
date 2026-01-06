@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { ShopContext } from '../context/shopContext'
+import RelatedProducts from '../components/RelatedProducts'
 
 const Product = () => {
-  const { products } = useContext(ShopContext)
+  const { products, addToCart } = useContext(ShopContext)
   const { id } = useParams()
   const [productData, setProductData] = useState(null)
   const [selectedSize, setSelectedSize] = useState(null)
@@ -139,12 +140,12 @@ const Product = () => {
             </div>
           )}
 
-          <button className="mt-6 bg-black text-white font-semibold py-3 px-6 rounded hover:bg-gray-800 transition">
+          <button disabled={sizes.length > 0 && !selectedSize} onClick={() => addToCart(productData.id, selectedSize)} className="mt-6 bg-black text-white font-display font-semibold py-3 px-6 rounded hover:bg-gray-800 transition disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed disabled:hover:bg-gray-300">
             Add to Cart
           </button>
 
           <hr className='mt-8 sm:w-4/5'/>
-          <div className="text-sm text-gray-500 mt-5 flex flex-col gap-1">
+          <div className="font-paragraph font-medium text-sm text-gray-500 mt-5 flex flex-col gap-1">
             <p>100% Original Product</p>
             <p>Cash on Delivery is available on this product</p>
             <p>Easy return and exchange policy within 7 days</p>
@@ -161,6 +162,8 @@ const Product = () => {
           <p>AllKit is more than just a store; it’s a complete lifestyle destination designed to make shopping effortless, enjoyable, and inspiring. At AllKit, we believe in bringing the best products from across the globe right to your fingertips, combining quality, variety, and convenience under one roof.</p>
         </div>
       </div>
+
+      <RelatedProducts category={productData.category}/>
     </div>
   )
 }

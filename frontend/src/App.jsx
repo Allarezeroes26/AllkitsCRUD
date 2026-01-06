@@ -16,7 +16,11 @@ function App() {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <MainLayout />,
+      element:(
+        <ShopContextProvider>
+          <MainLayout />
+        </ShopContextProvider> 
+      ),
       children: [
         {
           index: true,
@@ -61,9 +65,7 @@ function App() {
 
   return (
     <>
-    <ShopContextProvider>
       <RouterProvider router={router}/>
-    </ShopContextProvider>
     </>
   )
 }

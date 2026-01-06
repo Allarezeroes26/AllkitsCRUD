@@ -15,3 +15,13 @@
     color: white;
   }
 }
+
+.Toastify__toast {
+  @apply font-display;
+}
+.Toastify__toast-body {
+  @apply font-display;
+}
+.Toastify__progress-bar {
+  @apply bg-white;
+}
