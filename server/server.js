@@ -1,12 +1,15 @@
 const express = require('express')
 const cors = require('cors')
-const dotenv = require('dotenv').config()
 
 const productRoutes = require('./Routes/productRoutes')
+const connectDB = require('./Config/mongodb')
+const connectCloudinary = require('./Config/cloudinary')
 
 const app = express()
 
 const port = process.env.PORT || 5001
+connectDB()
+connectCloudinary()
 
 app.use(express.json())
 app.use(cors({
