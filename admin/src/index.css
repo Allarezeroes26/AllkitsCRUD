@@ -7,19 +7,7 @@
   --font-paragraph: "Quattrocento", serif;
 }
 
-@media (max-width: 640px) {
-  a.active{
-    background-color: black;
-    color: white;
-  }
-}
-
-.Toastify__toast {
-  @apply font-display;
-}
-.Toastify__toast-body {
-  @apply font-display;
-}
-.Toastify__progress-bar {
-  @apply bg-white;
+.active {
+  background-color: 	#e5a3a3;
+  border-color: 	#ecc9c9;
 }
