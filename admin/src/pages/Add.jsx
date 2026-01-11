@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { FaFileUpload } from "react-icons/fa";
 import axios from 'axios'
 import {backendUrl} from '../layout/MainLayout'
+import { toast } from 'react-toastify';
 
-const Add = () => {
-  const [image1, setImage1] = useState(false);
-  const [image2, setImage2] = useState(false);
-  const [image3, setImage3] = useState(false);
-  const [image4, setImage4] = useState(false);
+const Add = ({token}) => {
+
+  const [loading, setLoading] = useState(false)
+
+  const [image1, setImage1] = useState(null);
+  const [image2, setImage2] = useState(null);
+  const [image3, setImage3] = useState(null);
+  const [image4, setImage4] = useState(null);
 
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
@@ -15,10 +19,26 @@ const Add = () => {
   const [category, setCategory] = useState("")
   const [sizes, setSizes] = useState([]) 
 
+  const isClothing = ["men's clothing", "women's clothing"].includes(category)
+
   const onSubmitHandler = async (e) => {
     e.preventDefault()
 
+    if (isClothing && sizes.length === 0) {
+      toast.error("Select atleast one size", {
+        autoClose: 2000
+      })
+
+      return
+    }
+
+    if (loading) return
+
+    const toastId = toast.loading("Uploading product")
+
     try {
+      setLoading(true)
+
       const formData = new FormData()
 
       formData.append("title", title)
@@ -32,12 +52,34 @@ const Add = () => {
       image3 && formData.append("image3", image3)
       image4 && formData.append("image4", image4)
 
-      const response = await axios.post(backendUrl + "/api/product/add", formData)
+      await axios.post(backendUrl + "/api/products/add", formData, {headers: {token}})
 
-      console.log(response.data)
+      toast.update(toastId, {
+        render: "Product added successfully",
+        type: "success",
+        isLoading: false,
+        autoClose: 2000
+      })
+      
+      setTitle("")
+      setDescription("")
+      setPrice("")
+      setCategory("")
+      setSizes([])
+      setImage1(null)
+      setImage2(null)
+      setImage3(null)
+      setImage4(null)
 
     } catch (err) {
-      console.error(err)
+      toast.update(toastId, {
+        render: err.response?.data?.message || err.message || "Upload failed",
+        type: "error",
+        isLoading: false,
+        autoClose: 2000
+      })
+    } finally {
+      setLoading(false)
     }
   }
 
