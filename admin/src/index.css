@@ -8,6 +8,12 @@
 }
 
 .active {
-  background-color: 	#e5a3a3;
-  border-color: 	#ecc9c9;
+  background-color: #e5a3a3;
+  border-color: #ecc9c9;
+}
+
+select,input,textarea{
+  border: 1px solid #ecc9c9;
+  outline-color: #e5a3a3;
+  border-radius: 4px;
 }
