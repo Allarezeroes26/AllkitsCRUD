@@ -15,6 +15,7 @@ const ShopContextProvider = ({children}) => {
     const [ showSearch, setShowSearch ] = useState(true)
     const [ cartItems, setCartItem ] = useState({})
     const [ products, setProducts ] = useState([])
+    const [token, setToken] = useState('')
     const navigate = useNavigate()
 
     const addToCart = (id, size = 'default') => {
@@ -88,6 +89,12 @@ const ShopContextProvider = ({children}) => {
         getProductsData()
     }, [])
 
+    useEffect(() => {
+        if (!token && localStorage.getItem('token')) {
+            setToken(localStorage.getItem('token'))
+        }
+    })
+
     const updateQuantity = (id, size = 'default', quantity) => {
         const finalSize = size || 'default'; // 🚨 KEY LINE
 
@@ -151,7 +158,7 @@ const ShopContextProvider = ({children}) => {
 
 
     const value = {
-        products, backendUrl, navigate, getCartAmount, updateQuantity, getCartCount, currency, delivery_fee, search, setSearch, showSearch, setShowSearch, cartItems, addToCart
+        products, setToken, token, backendUrl, navigate, getCartAmount, updateQuantity, getCartCount, currency, delivery_fee, search, setSearch, showSearch, setShowSearch, cartItems, addToCart
     }
 
     return (
