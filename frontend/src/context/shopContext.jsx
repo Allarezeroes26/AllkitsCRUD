@@ -33,6 +33,7 @@ const ShopContextProvider = ({children}) => {
         setCartItem(cartData)
 
         const product = products.find(p => p.id === id)
+        if (!product) return
         const sizeText = size && size !== "default" ? `(${size})` : "";
 
         toast.success(`${product.title}${sizeText} Added to Cart!`, {
@@ -56,36 +57,55 @@ const ShopContextProvider = ({children}) => {
         return totalCount;
     }
 
-
     const getProductsData = async () => {
         try {
             const response = await axios.get(backendUrl + '/api/products/list')
-            if(response.data.success) {
-                setProducts(response.data.products)
+
+            if (response.data.success) {
+            const normalized = response.data.products.map(p => ({
+                id: p._id,                 // 🔥 normalize id
+                title: p.title,
+                price: p.price,
+                category: p.category,
+                image: p.images?.[0],      // 🔥 normalize image
+                description: p.description,
+                sizes: p.sizes,
+                raw: p
+            }))
+
+            setProducts(normalized)
             } else {
-                toast.error(response.data.message)
+            toast.error(response.data.message)
             }
         } catch (err) {
-            console.log(err)
-            toast.error(error.message)
+            console.error(err)
+            toast.error(err.message)
         }
-    }
-    
+        }
+
+
     useEffect(() => {
         getProductsData()
     }, [])
 
-    const updateQuantity = (id, size, quantity) => {
+    const updateQuantity = (id, size = 'default', quantity) => {
+        const finalSize = size || 'default'; // 🚨 KEY LINE
+
         const cartData = structuredClone(cartItems);
-        
+
         if (!cartData[id]) cartData[id] = {};
 
         const product = products.find(p => p.id === id);
-        const sizeText = size ? ` (${size})` : '';
+        if (!product) return;
+
+        const sizeText = finalSize !== 'default' ? ` (${finalSize})` : '';
 
         if (quantity === 0) {
-            delete cartData[id][size];
-            if (Object.keys(cartData[id]).length === 0) delete cartData[id];
+            delete cartData[id][finalSize];
+
+            if (Object.keys(cartData[id]).length === 0) {
+                delete cartData[id];
+            }
 
             toast.info(`${product.title}${sizeText} removed from cart`, {
                 className: 'bg-red-600 text-white font-display px-4 py-2 rounded-lg shadow-lg',
@@ -94,7 +114,7 @@ const ShopContextProvider = ({children}) => {
                 position: 'bottom-right'
             });
         } else {
-            cartData[id][size] = quantity;
+            cartData[id][finalSize] = quantity;
 
             toast.success(`${product.title}${sizeText} quantity updated`, {
                 className: 'bg-gray-800 text-white font-paragraph px-4 py-2 rounded-lg shadow-lg',
@@ -107,20 +127,27 @@ const ShopContextProvider = ({children}) => {
         setCartItem(cartData);
     };
 
+
     const getCartAmount = () => {
         let totalAmount = 0;
 
-        for(const items in cartItems) {
-            let itemInfo = products.find((p) => p.id === Number(items));
-            for(const item in cartItems[items]){
-                if (cartItems[items][item] > 0) {
-                    totalAmount += itemInfo.price * cartItems[items][item];
-                }
+        for (const productId in cartItems) {
+            const itemInfo = products.find(
+            (p) => String(p.id) === String(productId)
+            );
+
+            if (!itemInfo) continue; // 🔥 prevent crash
+
+            for (const size in cartItems[productId]) {
+            const qty = cartItems[productId][size];
+            if (qty > 0) {
+                totalAmount += itemInfo.price * qty;
+            }
             }
         }
 
         return totalAmount;
-    }
+        };
 
 
     const value = {

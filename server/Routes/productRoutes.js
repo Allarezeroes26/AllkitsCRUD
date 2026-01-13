@@ -3,6 +3,8 @@ const { addProduct, listProduct, removeProduct, singleProduct } = require('../Co
 const upload = require('../Middleware/multer')
 const adminAuth = require('../Middleware/adminAuth')
 const router = express.Router()
+const productModel = require('../Models/productModel')
+const { default: mongoose } = require('mongoose')
 
 router.get('/', async (req, res) => {
     try {
@@ -25,9 +27,27 @@ router.get('/list', listProduct);
 router.get('/:id', async (req, res) => {
     try {
         const {id} = req.params
-        const response = await fetch(`https://fakestoreapi.com/products/${id}`)
-        const data = await response.json()
-        res.json(data)
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid product Id'
+            })
+        }
+
+        const response = await productModel.findById(id)
+
+        if (!response) {
+            return res.status(404).json({
+                success: false,
+                message: 'Product not found'
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            product
+        })
     } catch (err) {
         res.status(500).json({Message: "Error getting product"})
     }

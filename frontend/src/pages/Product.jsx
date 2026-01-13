@@ -16,16 +16,16 @@ const Product = () => {
   useEffect(() => {
     if (!products.length) return
 
-    const foundProduct = products.find((item) => item.id === Number(id))
+    const foundProduct = products.find(item => item.id === id)
     if (!foundProduct) return
-    setProductData(foundProduct)
-    setSelectedSize(null) // reset selection
 
-    // Use category to decide extra info
+    setProductData(foundProduct)
+    setSelectedSize(null)
+
     switch (foundProduct.category.toLowerCase()) {
       case "men's clothing":
       case "women's clothing":
-        setSizes(["S", "M", "L", "XL"])
+        setSizes(foundProduct.sizes || [])
         setSpecs(null)
         setMaterial(null)
         setWeight(null)
@@ -35,7 +35,7 @@ const Product = () => {
         setSizes([])
         setSpecs({
           warranty: "1 year",
-          brand: foundProduct.title.split(" ")[0], // example
+          brand: foundProduct.title.split(" ")[0],
           connectivity: "USB / SATA"
         })
         setMaterial(null)
@@ -56,6 +56,7 @@ const Product = () => {
         setWeight(null)
     }
   }, [id, products])
+
 
   if (!productData) {
     return <div className="font-paragraph text-center mt-20">Loading Product...</div>
@@ -140,7 +141,7 @@ const Product = () => {
             </div>
           )}
 
-          <button disabled={sizes.length > 0 && !selectedSize} onClick={() => addToCart(productData.id, selectedSize)} className="mt-6 bg-black text-white font-display font-semibold py-3 px-6 rounded hover:bg-gray-800 transition disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed disabled:hover:bg-gray-300">
+          <button disabled={sizes.length > 0 && !selectedSize} onClick={() => addToCart(productData.id, selectedSize || 'default')} className="mt-6 bg-black text-white font-display font-semibold py-3 px-6 rounded hover:bg-gray-800 transition disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed disabled:hover:bg-gray-300">
             Add to Cart
           </button>
 

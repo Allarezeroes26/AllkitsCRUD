@@ -17,8 +17,8 @@ const Cart = () => {
       for (const sizeKey in cartItems[productId]) {
         if (cartItems[productId][sizeKey] > 0) {
           tempData.push({
-            id: Number(productId),
-            size: sizeKey && sizeKey !== 'default' && sizeKey !== 'null' ? sizeKey : null,
+            id: productId,
+            size: sizeKey,
             quantity: cartItems[productId][sizeKey]
           });
         }
@@ -38,6 +38,8 @@ const Cart = () => {
         {cartData.map((item) => {
           const productData = products.find((product) => product.id === item.id)
 
+          if (!productData) return null;
+
           return (
             <div key={productData.id} className="py-4 font-paragraph border-t border-b text-gray-800 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4">
               <div className="flex items-start gap-6">
@@ -46,7 +48,7 @@ const Cart = () => {
                   <p className='text-xs font-display sm:text-lg font-medium'>{productData.title}</p>
                   <div className='flex items-center gap-5 mt-2'>
                     <p>{currency}{productData.price}</p>
-                    {item.size && (
+                    {item.size && item.size !== 'default' && (
                       <p className="px-2 sm:px-3 sm:py-1 border bg-slate-50 text-sm">
                         {item.size}
                       </p>
@@ -54,7 +56,18 @@ const Cart = () => {
                   </div>
                 </div>
               </div>
-              <input onChange={(e) => e.target.value === '' || e.target.value === '0' ? null : updateQuantity(item.id, item.size, Number(e.target.value))} className='border max-w-10 sm:max-w-20 px-1 sm:px-2 px-1' type="number" min={1} defaultValue={item.quantity} />
+              <input
+                type="number"
+                min={1}
+                value={item.quantity}
+                onChange={(e) => {
+                  const value = Number(e.target.value);
+                  if (!value) return;
+                  updateQuantity(item.id, item.size, value);
+                }}
+                className="border max-w-10 sm:max-w-20 px-1 sm:px-2"
+              />
+
               <MdDelete onClick={() => updateQuantity(item.id, item.size, 0)} className='text-xl cursor-pointer'/>
             </div>
           )
