@@ -5,6 +5,7 @@ const productRoutes = require('./Routes/productRoutes')
 const connectDB = require('./Config/mongodb')
 const connectCloudinary = require('./Config/cloudinary')
 const userRouter = require('./Routes/userRoute')
+const cartRouter = require('./Routes/cartRoute')
 
 const app = express()
 
@@ -22,6 +23,7 @@ app.use(cors({
 
 app.use('/api/products', productRoutes)
 app.use('/api/user', userRouter)
+app.use('/api/cart', cartRouter)
 
 app.listen(port, () => {
     console.log(`Server running in http://localhost:${port}`)
