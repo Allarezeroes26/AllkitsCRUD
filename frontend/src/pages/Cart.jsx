@@ -41,7 +41,7 @@ const Cart = () => {
           if (!productData) return null;
 
           return (
-            <div key={productData.id} className="py-4 font-paragraph border-t border-b text-gray-800 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4">
+            <div key={`${item.id}-${item.size}`} className="py-4 font-paragraph border-t border-b text-gray-800 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4">
               <div className="flex items-start gap-6">
                 <img className='w-16 sm:w-20' src={productData.image} />
                 <div>
