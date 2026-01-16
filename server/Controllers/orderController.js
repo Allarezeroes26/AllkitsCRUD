@@ -13,6 +13,7 @@ const placeOrder = async (req, res) => {
             amount,
             paymentMethod: "COD",
             payment: false,
+            status: "Order Placed",
             date: Date.now()
         }
 
@@ -59,7 +60,14 @@ const userOrders = async (req, res) => {
 }
 
 const updateStatus = async (req, res) => {
-
+    try {
+        const { orderId, status } = req.body
+        await orderModel.findByIdAndUpdate(orderId, {status})
+        res.json({success: true, message: 'Status Updated'})
+    } catch (err) {
+        console.error(err)
+        res.json({ success: false, message: err.message })
+    }
 }
 
 module.exports = { placeOrder, placeOrderGCash, placeOrderPaypal, allOrders, userOrders, updateStatus }

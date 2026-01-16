@@ -28,6 +28,19 @@ const Orders = ({ token }) => {
     }
   }
 
+  const statusHandler = async (e, orderId) => {
+    try {
+      const response = await axios.post(backendUrl + '/api/order/status', {orderId, status:e.target.value}, {headers: {token}})
+      if (response.data.success) {
+        await fetchAllOrders()
+      }
+
+    }  catch (err) {
+      console.log(err)
+      toast.error(response.data.message)
+    }
+  }
+
   useEffect(() => {
     fetchAllOrders()
   }, [token])
@@ -53,19 +66,26 @@ const Orders = ({ token }) => {
                   Ordered Items
                 </p>
 
-                {order.items.map((item, idx) => (
-                  <p
-                    key={idx}
-                    className="text-sm text-gray-700"
-                  >
-                    {item.name} × {item.quantity}
-                    {item.size && (
-                      <span className="ml-2 text-xs px-2 py-0.5 border rounded">
-                        {item.size}
-                      </span>
-                    )}
-                  </p>
-                ))}
+                {order.items.map((item, idx) => {
+                  const itemName =
+                    item.name ||
+                    item.title ||
+                    item.product?.name ||
+                    'Unknown Product'
+
+                  return (
+                    <p key={idx} className="text-sm text-gray-700">
+                      <span className="font-medium">{itemName}</span> × {item.quantity || 1}
+
+                      {item.size && (
+                        <span className="ml-2 text-xs px-2 py-0.5 border rounded">
+                          {item.size}
+                        </span>
+                      )}
+                    </p>
+                  )
+                })}
+
               </div>
             </div>
 
@@ -124,6 +144,7 @@ const Orders = ({ token }) => {
               </p>
 
               <select
+                onChange={(e) => statusHandler(e, order._id)}
                 className="mt-3 border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
                 defaultValue={order.status || 'Order Placed'}
               >
