@@ -55,11 +55,11 @@ const PlaceOrder = () => {
         amount: getCartAmount() + delivery_fee
       }
 
-
+      let response;
       switch(method) {
         //Api for COD
         case 'cod':
-          const response = await axios.post(backendUrl + '/api/order/place', orderData, {headers: {token: token}})
+          response = await axios.post(backendUrl + '/api/order/place', orderData, {headers: {token: token}})
           console.log(response.data)
           if (response.data.success) {
             setCartItem({})
@@ -70,6 +70,30 @@ const PlaceOrder = () => {
 
           break;
 
+        case 'gcash': 
+          response = await axios.post(backendUrl + '/api/order/gcash', orderData, {headers: { token }})
+          console.log(response.data)
+          if (response.data.success) {
+            setCartItem({})
+            toast.success('Payment Success')
+            navigate('/orders')
+          } else {
+            toast.error(response.data.message)
+          }
+          break
+
+        case 'paypal':
+          response = await axios.post(backendUrl + '/api/order/paypal', orderData, {headers: {token}})
+          console.log(response.data)
+          toast.success('Payment Success')
+          if (response.data.success) {
+            setCartItem({})
+            navigate('/orders')
+          } else {
+            toast.error(response.data.message)
+          }
+
+          break
         default:
         break;
       }
