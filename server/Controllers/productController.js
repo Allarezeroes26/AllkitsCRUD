@@ -58,7 +58,6 @@ const addProduct = async (req, res) => {
             normalizedCategory === 'jewelery' ||
             normalizedCategory === 'electronics'
         ) {
-            // Force sizes to empty
             parsedSizes = []
         } else {
             return res.status(400).json({
@@ -89,8 +88,6 @@ const addProduct = async (req, res) => {
 
         const productDB = new productModel(product)
         await productDB.save()
-
-        console.log('Product Created:', product)
 
         return res.status(201).json({
             success: true,

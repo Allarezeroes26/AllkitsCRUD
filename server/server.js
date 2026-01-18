@@ -15,12 +15,7 @@ connectDB()
 connectCloudinary()
 
 app.use(express.json())
-app.use(cors({
-    origin: [
-        "http://localhost:5173",
-        "http://localhost:5174"
-    ]
-}))
+app.use(cors())
 
 app.use('/api/products', productRoutes)
 app.use('/api/user', userRouter)
@@ -28,5 +23,5 @@ app.use('/api/cart', cartRouter)
 app.use('/api/order', orderRouter)
 
 app.listen(port, () => {
-    console.log(`Server running in http://localhost:${port}`)
+    console.log(`Server running on port ${port}`)
 })
