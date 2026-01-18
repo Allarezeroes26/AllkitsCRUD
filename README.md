@@ -124,23 +124,6 @@ CLOUDINARY_NAME = your_cloudinary_name
 ```
 ---
 
-## 🧪 Sample Admin/User Account (Demo)
-
-### Admin
-
-Email: admin@allkits.com  
-Password: iamanadmin
-
-### User
-
-Email: test@gmail.com
-Password: test1234567890
-
-
-Credentials are for demo purposes only.
-
----
-
 ## 📌 Project Purpose
 
 This project was built to:
