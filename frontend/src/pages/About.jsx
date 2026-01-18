@@ -5,8 +5,8 @@ import Newsletter from '../components/Newsletter'
 
 const About = () => {
   return (
-    <div>
-      <div className="text-2xl text-center p-8 border-t">
+    <div className='mt-15'>
+      <div className="text-2xl text-center p-8">
         <Title text1={'About'} text2={'Us'}/>
       </div>
 

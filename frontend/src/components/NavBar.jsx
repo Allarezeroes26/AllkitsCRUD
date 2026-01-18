@@ -1,103 +1,156 @@
-import { NavLink, Link } from "react-router-dom";
-import { CiSearch } from "react-icons/ci";
-import { IoPersonOutline } from "react-icons/io5";
-import { CiShoppingCart } from "react-icons/ci";
-import { IoIosMenu } from "react-icons/io";
-import { IoIosArrowBack } from "react-icons/io";
-import { useContext, useState } from "react";
-import { ShopContext } from "../context/shopContext";
+import { NavLink, Link } from "react-router-dom"
+import { CiSearch, CiShoppingCart } from "react-icons/ci"
+import { IoPersonOutline } from "react-icons/io5"
+import { IoIosMenu, IoIosArrowBack } from "react-icons/io"
+import { useContext, useState } from "react"
+import { ShopContext } from "../context/shopContext"
 
 const Navbar = () => {
+  const [visible, setVisible] = useState(false)
 
-  const [ visible, setVisible ] = useState(false)
-  const { setShowSearch, getCartCount, navigate, token, setToken, setCartItem } = useContext(ShopContext)
+  const {
+    setShowSearch,
+    getCartCount,
+    navigate,
+    token,
+    setToken,
+    setCartItem,
+  } = useContext(ShopContext)
 
   const logout = () => {
-    navigate('/login')
-    localStorage.removeItem('token')
-    setToken('')
+    navigate("/login")
+    localStorage.removeItem("token")
+    setToken("")
     setCartItem({})
   }
 
   return (
-    <div className="flex items-center justify-between py-5">
-      <Link to="/"><h1 className="font-display text-2xl">AllKit</h1></Link>
-      <nav className="hidden sm:flex items-center space-x-6">
-        <NavLink
-          to="/"
-          className="relative group font-paragraph text-black"
-        >
-          Home
-          <span className="absolute left-0 bottom-0 h-0.5 w-0 bg-black group-hover:w-full transition-all duration-500"></span>
-        </NavLink>
+    <header className="fixed top-0 left-0 w-full z-50 bg-white border-b border-gray-200">
+      {/* NAV CONTENT */}
+      <div className="flex items-center justify-between h-16 px-6 sm:px-12">
 
-        <NavLink
-          to="/collection"
-          className="relative group font-paragraph text-black"
-        >
-          Products
-          <span className="absolute left-0 bottom-0 h-0.5 w-0 bg-black group-hover:w-full transition-all duration-500"></span>
-        </NavLink>
-
-        <NavLink
-          to="/about"
-          className="relative group font-paragraph text-black"
-        >
-          About
-          <span className="absolute left-0 bottom-0 h-0.5 w-0 bg-black group-hover:w-full transition-all duration-500"></span>
-        </NavLink>
-
-        <NavLink
-          to="/contact"
-          className="relative group font-paragraph text-black"
-        >
-          Contact
-          <span className="absolute left-0 bottom-0 h-0.5 w-0 bg-black group-hover:w-full transition-all duration-500"></span>
-        </NavLink>
-      </nav>
-      <div className="flex flex-row gap-5">
-        <CiSearch onClick={() => setShowSearch(true)} className="text-2x cursor-pointer w-5"/>
-
-        <div className="group relative">
-          <IoPersonOutline onClick={() => token? null : navigate('/login')} className="text-2x cursor-pointer w-5"/>
-          {/* Dropdown */}
-          { token && 
-          <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
-            <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
-              <p className="cursor-pointer hover:text-black">My Profile</p>
-              <Link to={'/orders'}>
-                <p className="cursor-pointer hover:text-black">Orders</p>
-              </Link>
-              <p onClick={logout} className="cursor-pointer hover:text-black">Logout</p>
-            </div>
-          </div> }
-        </div>
-
-        <Link to='/cart' className='relative'>
-          <CiShoppingCart className="w-5 min-w-5"/>
-          <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[10px]">{getCartCount()}</p>
+        {/* LOGO */}
+        <Link to="/">
+          <h1 className="font-display text-2xl">AllKit</h1>
         </Link>
 
-        <IoIosMenu onClick={() => setVisible(true)} className="w-5 cursor-pointer sm:hidden"/>
-      </div>
+        {/* DESKTOP NAV */}
+        <nav className="hidden sm:flex items-center space-x-8">
+          {["/", "/collection", "/about", "/contact"].map((path, i) => {
+            const labels = ["Home", "Products", "About", "Contact"]
+            return (
+              <NavLink
+                key={path}
+                to={path}
+                className="relative group font-paragraph text-black"
+              >
+                {labels[i]}
+                <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-black group-hover:w-full transition-all duration-300" />
+              </NavLink>
+            )
+          })}
+        </nav>
 
-      {/* Sidebar menu for small Screen */}
+        {/* ACTION ICONS */}
+        <div className="flex items-center gap-5">
 
-      <div className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all ${visible ? 'w-full' : 'w-0'}`}>
-        <div className="flex flex-col text-gray-600">
-          <div onClick={() => setVisible(false)} className="flex items-center gap-4 p-3 cursor-pointer">
-            <IoIosArrowBack className="h-4"/>
-            <p>Back</p>
+          <CiSearch
+            onClick={() => setShowSearch(true)}
+            className="w-5 cursor-pointer"
+          />
+
+          {/* USER */}
+          <div className="relative group">
+            <IoPersonOutline
+              onClick={() => (!token ? navigate("/login") : null)}
+              className="w-5 cursor-pointer"
+            />
+
+            {token && (
+              <div className="absolute right-0 top-full pt-4 hidden group-hover:block">
+                <div className="w-36 bg-slate-100 rounded shadow-md py-3 px-5 text-gray-600 flex flex-col gap-2">
+                  <p className="cursor-pointer hover:text-black">My Profile</p>
+                  <Link to="/orders">
+                    <p className="cursor-pointer hover:text-black">Orders</p>
+                  </Link>
+                  <p
+                    onClick={logout}
+                    className="cursor-pointer hover:text-black"
+                  >
+                    Logout
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
-          <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border font-paragraph' to='/'>Home</NavLink>
-          <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border font-paragraph' to='/collection'>Collection</NavLink>
-          <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border font-paragraph' to='/about'>About</NavLink>
-          <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border font-paragraph' to='/contact'>Contact</NavLink>
+
+          {/* CART */}
+          <Link to="/cart" className="relative">
+            <CiShoppingCart className="w-5 min-w-5" />
+            <span className="absolute -right-2 -bottom-2 w-4 h-4 text-[10px] flex items-center justify-center bg-black text-white rounded-full">
+              {getCartCount()}
+            </span>
+          </Link>
+
+          {/* MOBILE MENU ICON */}
+          <IoIosMenu
+            onClick={() => setVisible(true)}
+            className="w-5 cursor-pointer sm:hidden"
+          />
         </div>
       </div>
 
-    </div>
-  );
-};
+      {/* MOBILE SIDEBAR */}
+      <div
+        className={`fixed top-0 right-0 h-screen bg-white z-50 transition-all duration-300 ${
+          visible ? "w-full" : "w-0"
+        } overflow-hidden`}
+      >
+        <div className="flex flex-col text-gray-600">
 
-export default Navbar;
+          <div
+            onClick={() => setVisible(false)}
+            className="flex items-center gap-4 p-4 cursor-pointer border-b"
+          >
+            <IoIosArrowBack className="h-4" />
+            <p>Back</p>
+          </div>
+
+          <NavLink
+            onClick={() => setVisible(false)}
+            className="py-3 pl-6 border-b font-paragraph"
+            to="/"
+          >
+            Home
+          </NavLink>
+
+          <NavLink
+            onClick={() => setVisible(false)}
+            className="py-3 pl-6 border-b font-paragraph"
+            to="/collection"
+          >
+            Collection
+          </NavLink>
+
+          <NavLink
+            onClick={() => setVisible(false)}
+            className="py-3 pl-6 border-b font-paragraph"
+            to="/about"
+          >
+            About
+          </NavLink>
+
+          <NavLink
+            onClick={() => setVisible(false)}
+            className="py-3 pl-6 border-b font-paragraph"
+            to="/contact"
+          >
+            Contact
+          </NavLink>
+        </div>
+      </div>
+    </header>
+  )
+}
+
+export default Navbar

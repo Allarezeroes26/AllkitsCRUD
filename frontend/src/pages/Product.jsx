@@ -9,9 +9,6 @@ const Product = () => {
   const [productData, setProductData] = useState(null)
   const [selectedSize, setSelectedSize] = useState(null)
   const [sizes, setSizes] = useState([])
-  const [specs, setSpecs] = useState(null)
-  const [material, setMaterial] = useState(null)
-  const [weight, setWeight] = useState(null)
 
   useEffect(() => {
     if (!products.length) return
@@ -26,34 +23,10 @@ const Product = () => {
       case "men's clothing":
       case "women's clothing":
         setSizes(foundProduct.sizes || [])
-        setSpecs(null)
-        setMaterial(null)
-        setWeight(null)
-        break
-
-      case "electronics":
-        setSizes([])
-        setSpecs({
-          warranty: "1 year",
-          brand: foundProduct.title.split(" ")[0],
-          connectivity: "USB / SATA"
-        })
-        setMaterial(null)
-        setWeight(null)
-        break
-
-      case "jewelery":
-        setSizes([])
-        setSpecs(null)
-        setMaterial("Gold / Silver")
-        setWeight("10g")
         break
 
       default:
         setSizes([])
-        setSpecs(null)
-        setMaterial(null)
-        setWeight(null)
     }
   }, [id, products])
 
@@ -111,33 +84,6 @@ const Product = () => {
                   Selected Size: {selectedSize}
                 </p>
               )}
-            </div>
-          )}
-
-          {/* Specs for Electronics */}
-          {specs && (
-            <div className="mt-4">
-              <p className="text-gray-600 font-medium mb-2 font-paragraph">Specifications:</p>
-              <ul className="list-disc list-inside font-paragraph text-gray-700">
-                {Object.entries(specs).map(([key, value]) => (
-                  <li key={key}>
-                    <span className="font-semibold">{key}: </span>
-                    {value}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Material / Weight for Jewelry */}
-          {material && weight && (
-            <div className="mt-4 text-gray-700 font-paragraph">
-              <p>
-                <span className="font-semibold">Material:</span> {material}
-              </p>
-              <p>
-                <span className="font-semibold">Weight:</span> {weight}
-              </p>
             </div>
           )}
 

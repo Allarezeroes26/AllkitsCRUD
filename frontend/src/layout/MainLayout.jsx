@@ -10,9 +10,11 @@ const MainLayout = () => {
     <div className='flex flex-col gap-10 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]'>
       <ToastContainer />
       <Navbar />
-      <Searchbar />
-      <Outlet />
-      <Footer />
+      <div>
+        <Searchbar />
+        <Outlet />
+        <Footer />
+      </div>
     </div>
   )
 }

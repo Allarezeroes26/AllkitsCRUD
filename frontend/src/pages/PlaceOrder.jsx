@@ -33,6 +33,12 @@ const PlaceOrder = () => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault()
+
+    if (!token) {
+      toast.error('Please create an account or log in first')
+      return;
+    }
+
     try {
       let orderItems = []
 

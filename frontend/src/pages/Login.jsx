@@ -48,7 +48,7 @@ const Login = () => {
   })
 
   return (
-    <form onSubmit={onSubmitHandler} className='flex font-paragraph flex-col items-center w-[90%] sm:max-w-96 m-auto text-gray-500'>
+    <form onSubmit={onSubmitHandler} className='flex font-paragraph min-h-[50vh] flex-col items-center w-[90%] sm:max-w-96 m-auto text-gray-500'>
       <div className="inline-flex items-center gap-2 mb-2 mt-10">
         <p className='font-display text-3xl'>{currentState}</p>
         <hr className='border-none h-[1.5px] w-8 bg-gray-800'/>

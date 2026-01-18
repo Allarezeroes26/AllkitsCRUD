@@ -73,11 +73,11 @@ const ShopContextProvider = ({children}) => {
 
             if (response.data.success) {
             const normalized = response.data.products.map(p => ({
-                id: p._id,                 // 🔥 normalize id
+                id: p._id,
                 title: p.title,
                 price: p.price,
                 category: p.category,
-                image: p.images?.[0],      // 🔥 normalize image
+                image: p.images?.[0],
                 description: p.description,
                 sizes: p.sizes,
                 raw: p
@@ -94,32 +94,38 @@ const ShopContextProvider = ({children}) => {
         }
 
         const getUserCart = async (token) => {
+            if (!token) return;
+
             try {
-                const response = await axios.post(backendUrl + '/api/cart/get', {}, {headers: {token: token}})
+                const response = await axios.post(
+                    backendUrl + '/api/cart/get',
+                    {},
+                    { headers: { token: token } }
+                );
 
                 if (response.data.success) {
-                    setCartItem(response.data.cartData)
+                    setCartItem(response.data.cartData);
                 }
-                
+
             } catch (err) {
-                console.log(err)
-                toast.error(error.message)
+                console.log(err);
+                toast.error(err.response?.data?.message || err.message);
             }
-            }
+        };
+
+    useEffect(() => {
+        const savedToken = localStorage.getItem('token');
+        if (savedToken) {
+            setToken(savedToken);
+            getUserCart(savedToken);
+        }
+    }, []);
+
 
 
     useEffect(() => {
         getProductsData()
     }, [])
-
-    useEffect(() => {
-    const savedToken = localStorage.getItem('token');
-    if (savedToken) {
-        setToken(savedToken);
-    }
-
-    getUserCart(localStorage.getItem('token'))
-    }, []);
 
 
     const updateQuantity = async (id, size = 'default', quantity) => {

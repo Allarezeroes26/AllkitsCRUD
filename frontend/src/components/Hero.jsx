@@ -1,52 +1,37 @@
-import photo from "../assets/fashionphoto.jpg"
+import { Link } from "react-router-dom"
 
 const Hero = () => {
   return (
-    <section className="flex flex-col sm:flex-row min-h-[70vh] border border-gray-300">
-
-      {/* LEFT CONTENT */}
-      <div className="w-full sm:w-1/2 flex items-center justify-center px-6 sm:px-12">
-        <div className="max-w-xl">
-
-          {/* Badge */}
-          <div className="flex items-center gap-3 mb-6">
-            <span className="w-10 h-[3px] bg-black"></span>
-            <p className="font-paragraph text-sm tracking-widest uppercase text-gray-600">
-              AllKit
-            </p>
-          </div>
-
-          {/* Title */}
-          <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-            Everything You Need. <br /> One Store.
-          </h1>
-
-          {/* Subtitle */}
-          <p className="font-paragraph text-gray-600 text-base sm:text-lg mb-8">
-            Fashion, electronics, and everyday essentials.
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="flex gap-4">
-            <button className="px-6 py-3 bg-black text-white font-paragraph text-sm tracking-wide hover:bg-gray-800 transition">
-              Shop Now
-            </button>
-
-            <button className="px-6 py-3 border border-black text-black font-paragraph text-sm tracking-wide hover:bg-black hover:text-white transition">
-              Explore Collection
-            </button>
-          </div>
-
-        </div>
+    <section className="w-full min-h-screen flex flex-col justify-center items-center bg-white text-center">
+      <div className="flex items-center justify-center gap-3 mb-4">
+        <span className="w-12 h-1 bg-black"></span>
+        <p className="font-paragraph text-xs uppercase tracking-widest text-gray-500">
+          AllKit Store
+        </p>
       </div>
 
-      {/* RIGHT IMAGE */}
-      <div className="w-full sm:w-1/2 h-[40vh] sm:h-auto">
-        <img
-          src={photo}
-          alt="Mens Fashion"
-          className="w-full h-full object-cover"
-        />
+      <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight text-black mb-4">
+        Everything You Need,
+        <br />
+        <span className="font-normal text-gray-700">One Store.</span>
+      </h1>
+
+      <p className="font-paragraph text-gray-600 text-lg sm:text-xl lg:text-2xl leading-relaxed max-w-xl mb-8">
+        Curated fashion, electronics, and lifestyle essentials — delivered for modern living.
+      </p>
+
+      <div className="flex flex-wrap justify-center gap-5">
+        <Link to="/collection">
+          <button className="px-10 py-4 bg-black text-white text-base font-paragraph tracking-wide rounded-md shadow-md hover:bg-gray-800 transition duration-300 transform hover:-translate-y-1">
+            Shop Now
+          </button>
+        </Link>
+
+        <Link to="/collection">
+          <button className="px-10 py-4 border border-black text-black text-base font-paragraph tracking-wide rounded-md hover:bg-black hover:text-white transition duration-300 transform hover:-translate-y-1">
+            Explore Collection
+          </button>
+        </Link>
       </div>
 
     </section>
