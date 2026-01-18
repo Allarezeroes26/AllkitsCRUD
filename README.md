@@ -114,13 +114,14 @@ npm run server
 ## 🔐 Environment Variables
 
 Create a `.env` file inside the backend folder:
-
+```
 PORT=5000  
 MONGO_URI=your_mongodb_connection  
 JWT_SECRET=your_jwt_secret
 CLOUDINARY_API_KEY = your_api_key
 CLOUDINARY_SECRET_KEY = your_secret_key
 CLOUDINARY_NAME = your_cloudinary_name
+```
 ---
 
 ## 🧪 Sample Admin/User Account (Demo)
