@@ -90,21 +90,25 @@ All product images used in this project are:
 ## ⚙️ Installation & Setup
 
 ### 1. Clone the repository
+```
 git clone https://github.com/your-username/allkits-ecommerce.git
 cd allkits-ecommerce
-
+```
 ### 2. Install dependencies
 
 #### Frontend
+```
 cd frontend
 npm install
 npm run dev
+```
 
 #### Backend
+```
 cd backend
 npm install
 npm run server
-
+```
 ---
 
 ## 🔐 Environment Variables
