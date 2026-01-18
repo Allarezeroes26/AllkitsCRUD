@@ -20,7 +20,7 @@ Password: iamanadmin
 
 ### User
 
-Email: test@gmail.com
+Email: test@gmail.com  
 Password: test1234567890
 
 
