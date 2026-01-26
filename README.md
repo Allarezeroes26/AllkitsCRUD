@@ -1,4 +1,4 @@
-ok# 🛍️ AllKits – Modern E-commerce Web App
+# 🛍️ AllKits – Modern E-commerce Web App
 
 AllKits is a full-stack e-commerce web application built for portfolio purposes.  
 It demonstrates modern web development practices including product management, cart functionality, authentication, and a mock checkout system.
@@ -66,18 +66,6 @@ Credentials are for demo purposes only.
 
 ---
 
-## 💳 Payment System (Mock)
-
-This project uses a mock payment system for demonstration purposes only.
-
-- No real transactions
-- No real payment gateway
-- Orders are marked as paid after checkout simulation
-
-This approach is commonly used in portfolio projects to avoid handling real financial data.
-
----
-
 ## 🖼️ Product Images
 
 All product images used in this project are:
@@ -124,15 +112,6 @@ CLOUDINARY_NAME = your_cloudinary_name
 ```
 ---
 
-## 📌 Project Purpose
-
-This project was built to:
-- Showcase full-stack MERN development skills
-- Demonstrate real-world e-commerce functionality
-- Practice clean and scalable architecture
-- Serve as a portfolio project for job applications
-
----
 
 ## 📄 License
 
