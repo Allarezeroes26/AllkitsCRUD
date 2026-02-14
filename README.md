@@ -1,6 +1,6 @@
 # 🛍️ AllKits – Modern E-commerce Web App
 
-AllKits is a full-stack e-commerce web application built for portfolio purposes.  
+AllKits is a full-stack e-commerce web application built with MERN Stack.  
 
 ---
 
