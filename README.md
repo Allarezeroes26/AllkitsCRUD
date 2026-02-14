@@ -1,7 +1,6 @@
 # 🛍️ AllKits – Modern E-commerce Web App
 
 AllKits is a full-stack e-commerce web application built for portfolio purposes.  
-It demonstrates modern web development practices including product management, cart functionality, authentication, and a mock checkout system.
 
 ---
 
